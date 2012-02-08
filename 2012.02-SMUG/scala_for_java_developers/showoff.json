@@ -1,0 +1,7 @@
+{ "name": "Scala for Java Developers", 
+  "sections": [ 
+    {"section":"intro"},
+    {"section":"crappy-java-code"},  
+    {"section":"scala"},
+    {"section":"other"}
+  ]}
