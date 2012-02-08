@@ -48,3 +48,18 @@
 	
 	  def markAsDone() = copy(done=true)
 	}
+	
+!SLIDE smbullets incremental transition=fade
+# Waooo ! #
+
+* Type Inference
+* Case class
+* val
+* Immutability **by default**
+* Closures
+* Wonderful Collection API
+* Monadic Operations : Option and List
+* Null: the billion dollar mistake
+
+!SLIDE bullets incremental transition=fade
+# This is just scratching the surface of Scala #
