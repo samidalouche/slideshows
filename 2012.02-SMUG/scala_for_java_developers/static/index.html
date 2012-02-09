@@ -1,0 +1,556 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Scala for Java Developers</title>
+
+  <meta name="viewport" content="width=device-width"/>
+
+  <link rel="stylesheet" href="./css/reset.css" type="text/css"/>
+  <link rel="stylesheet" href="./css/showoff.css" type="text/css"/>
+
+  <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="./js/jquery-print.js"></script>
+  <script type="text/javascript" src="./js/jquery.batchImageLoad.js"></script>
+
+  <script type="text/javascript" src="./js/jquery.doubletap-0.1.js"></script>
+
+  <script type="text/javascript" src="./js/fg.menu.js"></script>
+  <script type="text/javascript" src="./js/showoff.js"></script>
+  <script type="text/javascript" src="./js/jTypeWriter.js"> </script>
+  <script type="text/javascript" src="./js/sh_main.min.js"></script>
+  <script type="text/javascript" src="./js/core.js"></script>
+  <script type="text/javascript" src="./js/showoffcore.js"></script>
+  <script type="text/javascript" src="./js/coffee-script.js"></script>
+
+  <link type="text/css" href="./css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/theme/ui.all.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/sh_style.css" rel="stylesheet" >
+
+  
+
+  
+
+  <script type="text/javascript">
+  $(function(){
+      setupPreso(false, './');
+  });
+  </script>
+
+</head>
+
+<body>
+
+<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
+<div id="navigation" class="hidden"></div>
+
+<div id="help">
+  <table>
+    <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
+    <tr><td class="key">space, &rarr;</td><td>next slide</td></tr>
+    <tr><td class="key">shift-space, &larr;</td><td>previous slide</td></tr>
+    <tr><td class="key">d</td><td>toggle debug mode</td></tr>
+    <tr><td class="key">## &lt;ret&gt;</td><td>go to slide #</td></tr>
+    <tr><td class="key">c, t</td><td>table of contents (vi)</td></tr>
+    <tr><td class="key">f</td><td>toggle footer</td></tr>
+    <tr><td class="key">r</td><td>reload slides</td></tr>
+    <tr><td class="key">n</td><td>toggle notes</td></tr>
+    <tr><td class="key">p</td><td>run preshow</td></tr>
+  </table>
+</div>
+
+<div class="buttonNav">
+  <input type="submit" onClick="prevStep();" value="prev"/>
+  <input type="submit" onClick="nextStep();" value="next"/>
+</div>
+
+<div id="preso">loading presentation...</div>
+<div id="footer">
+  <span id="slideInfo"></span>
+  <span id="debugInfo"></span>
+  <span id="notesInfo"></span>
+</div>
+
+<div id="slides" class="offscreen" style="display:none;">
+<div class="slide" data-transition="none"><div class="content" ref="intro/01_slide/1">
+<h1>Scala for Java Developers</h1>
+
+<p>Sami Dalouche (<a href="mailto:sami.dalouche@gmail.com">sami.dalouche@gmail.com</a>)</p></div>
+</div><div class="slide" data-transition="fade"><div class="content bullets incremental" ref="intro/01_slide/2">
+<h1>A little bit on Java</h1>
+
+<ul>
+<li>Java is <em>enterprisy</em>...</li>
+<li>... but it's <em>boring</em></li>
+<li>... and makes it hard to do the <em>right thing</em></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content bullets incremental" ref="intro/01_slide/3">
+<h1>Have you heard of ...</h1>
+
+<ul>
+<li>Immutability</li>
+<li>Closures</li>
+<li>Type Inference</li>
+<li>DSLs</li>
+<li>Traits</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content" ref="crappy-java-code/01_slide/1">
+<h1>Crappy Java Code</h1></div>
+</div><div class="slide" data-transition="none"><div class="content command" ref="crappy-java-code/01_slide/2">
+<h1>TodoList</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/3">
+<pre class="sh_java"><code>package org.scalamontreal.todo;
+
+import java.util.List;
+
+public class TodoList {
+    private List&lt;TodoItem&gt; todoItems;
+
+    public TodoList() {
+        super();
+    }
+
+    public List&lt;TodoItem&gt; getTodoItems() {
+        return todoItems;
+    }
+
+    public void setTodoItems(List&lt;TodoItem&gt; todoItems) {
+        this.todoItems = todoItems;
+    }
+
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/4">
+<pre class="sh_java"><code>public List&lt;TodoItem&gt; getDoneItems() {
+    List&lt;TodoItem&gt; result = new ArrayList&lt;TodoItem&gt;();
+    for(TodoItem item: todoItems) {
+        if(item.isDone()) {
+            result.add(item);
+        }
+    }
+    return result;
+}
+
+public List&lt;TodoItem&gt; getUrgentItems() {
+    List&lt;TodoItem&gt; result = new ArrayList&lt;TodoItem&gt;();
+    for(TodoItem item: todoItems) {
+        if(!item.isDone() &amp;&amp; 
+           new Date().after(item.getDueDate())) {
+            result.add(item); 
+        }
+    }
+    return result;
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content command" ref="crappy-java-code/01_slide/5">
+<h1>TodoItem</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/6">
+<pre class="sh_java"><code>package org.scalamontreal.todo;
+
+import java.util.Date;
+
+public class TodoItem {
+    private String title;
+    private String description;
+    private Date dueDate;
+    private boolean done;
+
+    public TodoItem() {
+        super();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/7">
+<pre class="sh_java"><code>
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+
+
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content smbullets incremental" ref="crappy-java-code/01_slide/8">
+<h1>What's the problem ?</h1>
+
+<ul>
+<li>Verbosity</li>
+<li>Getters/Setters insanity</li>
+<li>Mutability</li>
+<li>Intent is lost</li>
+<li>Collection Manipulation</li>
+<li>What is nullable ?</li>
+<li>... And we have not started coding !!</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content bullets incremental" ref="crappy-java-code/01_slide/9">
+<h1>Let's refactor...</h1></div>
+</div><div class="slide" data-transition="none"><div class="content command" ref="crappy-java-code/01_slide/10">
+<h1>TodoList</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/11">
+<pre class="sh_java"><code>package org.scalamontreal.todo;
+
+import java.util.Date;
+import java.util.List;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/12">
+<pre class="sh_java"><code>public final class TodoList {
+    private final ImmutableList&lt;TodoItem&gt; todoItems;
+
+    public TodoList() {
+        this(ImmutableList.&lt;TodoItem&gt;of());
+    }
+    public TodoList(Iterable&lt;TodoItem&gt; todoItems) {
+        Preconditions.checkNotNull(todoItems);
+        this.todoItems = ImmutableList.copyOf(todoItems);
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/13">
+<pre class="sh_java"><code>    public ImmutableList&lt;TodoItem&gt; getTodoItems() {
+        return todoItems;
+    }
+
+    public TodoList addTodoItem(TodoItem todoItem) {
+        ImmutableList&lt;TodoItem&gt; newItems = 
+                ImmutableList.copyOf(
+                        Iterables.concat(
+                                todoItems, 
+                                ImmutableList.of(todoItem)));
+        return new TodoList(newItems);
+    }
+
+    public TodoList withTodoItems(Iterable&lt;TodoItem&gt; todoItems) {
+        return new TodoList(todoItems);
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/14">
+<pre class="sh_java"><code>    public ImmutableList&lt;TodoItem&gt; getDoneItems() {
+        return ImmutableList.copyOf(
+                Iterables.filter(
+                        todoItems, 
+                        new IsDonePredicate()));
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/15">
+<pre class="sh_java"><code>    public List&lt;TodoItem&gt; getUrgentItems() {
+        Iterable&lt;TodoItem&gt; filtered =
+                Iterables.filter(
+                    todoItems, 
+                    Predicates.and(
+                        Predicates.not(new IsDonePredicate()), 
+                        new PastDueDate()));
+        return ImmutableList.copyOf(filtered);
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/16">
+<pre class="sh_java"><code>    private final class PastDueDate 
+       implements Predicate&lt;TodoItem&gt; {
+        @Override
+        public boolean apply(TodoItem todoItem) {
+            return new Date().after(todoItem.getDueDate());
+        }
+    }
+
+    private static class IsDonePredicate 
+       implements Predicate&lt;TodoItem&gt; {
+        @Override public boolean apply(TodoItem todoItem) {
+            return todoItem.isDone();
+        }
+
+    }
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content command" ref="crappy-java-code/01_slide/17">
+<h1>TodoItem</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/18">
+<pre class="sh_java"><code>package org.scalamontreal.todo;
+
+import java.util.Date;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/19">
+<pre class="sh_java"><code>public final class TodoItem {
+    private String title;
+    private String description;
+    private Date dueDate;
+    private boolean done;
+
+    public TodoItem(String title, 
+        String description, 
+        Date dueDate) {
+        this(title, 
+            description, 
+            dueDate, 
+            false);
+    }
+
+    public TodoItem(String title, 
+        String description, 
+        Date dueDate, 
+        boolean done) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(title));
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.done = done;
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/20">
+<pre class="sh_java"><code>    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public boolean isDone() {
+        return done;
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/21">
+<pre class="sh_java"><code>    public TodoItem markAsDone() {
+        return new TodoItem(
+            title, 
+            description, 
+            dueDate, 
+            true);
+    }
+
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="crappy-java-code/01_slide/22">
+<h1>What's the problem ?</h1>
+
+<ul>
+<li>Verbosity</li>
+<li>Feels weird</li>
+<li>It's the price to pay to follow best practices in Java !</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content" ref="scala/01_slide/1">
+<h1>Let's dive into Scala</h1></div>
+</div><div class="slide" data-transition="none"><div class="content command" ref="scala/01_slide/2">
+<h1>TodoList</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="scala/01_slide/3">
+<pre class="sh_scala"><code>package org.scalamontreal.todo
+import java.util.Date
+
+final case class TodoList(
+    val todoItems: List[TodoItem]) {
+    require(todoItems != null)
+
+    def addItem(item: TodoItem) = {
+      copy(todoItems=item :: todoItems) 
+    }
+
+    def doneItems = todoItems filter (_.done)
+
+    def urgentItems = todoItems filter (
+        (item:TodoItem) =&gt; 
+            !item.done 
+            &amp;&amp; item.dueDate.map (new Date().after(_))
+                .getOrElse(false)
+    )
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content command" ref="scala/01_slide/4">
+<h1>TodoItem</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental smaller" ref="scala/01_slide/5">
+<pre class="sh_scala"><code>package org.scalamontreal.todo
+import java.util.Date
+
+final case class TodoItem(
+    val title: String, 
+    val description: Option[String], 
+    val dueDate: Option[Date], 
+    val done: Boolean = false) {
+  // paranoid preconditions
+  require(title != null)
+  require(description != null)
+  require(dueDate != null)
+
+  def markAsDone() = copy(done=true)
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content smbullets incremental" ref="scala/01_slide/6">
+<h1>Waooo !</h1>
+
+<ul>
+<li>Type Inference</li>
+<li>Case class</li>
+<li>val</li>
+<li>Immutability <strong>by default</strong></li>
+<li>Closures</li>
+<li>Wonderful Collection API</li>
+<li>Monadic Operations : Option and List</li>
+<li>Null: the billion dollar mistake</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content bullets incremental" ref="scala/01_slide/7">
+<h1>This is just scratching the surface of Scala</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/1">
+<h1>Overview of Scala</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content smbullets incremental" ref="scala/02_slide/2">
+<h1>Background</h1>
+
+<ul>
+<li>Made in Switzerland</li>
+<li>Hybrid (Functional and OO)</li>
+<li>Expressive</li>
+<li>Statically Typed</li>
+<li>Concurrent</li>
+<li>Beautiful</li>
+<li>For the OPS/Managers/etc: it's Java</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/3">
+<h1>Scala is Object-Oriented</h1>
+
+<ul>
+<li>Every value is an object</li>
+<li>Classes</li>
+<li>Traits: mixin-based composition</li>
+<li>Inheritance</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/4">
+<h1>Traits</h1>
+
+<pre class="sh_scala"><code>trait Similarity {
+  def isSimilar(x: Any): Boolean
+  def isNotSimilar(x: Any): Boolean = {
+    !isSimilar(x)
+  }
+}
+class Point(xc: Int, yc: Int) 
+   extends Similarity {
+...
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/5">
+<h1>Scala is Functional</h1>
+
+<ul>
+<li>Every function is a value</li>
+<li>Higher-Order Functions</li>
+<li>Currying</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/6">
+<h1>Functions are first-class citizens</h1>
+
+<pre class="sh_scala"><code>def doneItems = {
+    todoItems filter itemDone
+}
+def itemDone(item: TodoItem) = item.done</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/7">
+<h1>Type inference</h1>
+
+<pre class="sh_scala"><code>val description = "this is a String"
+def concatenateDescription = {
+    description + description
+}
+val descriptions: List[String] = List()   </code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/8">
+<h1>Immutability</h1>
+
+<pre class="sh_scala"><code>val list1 = List("item1", "item2")
+val list2 = "item3" :: list1</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/9">
+<h1>Pattern Matching</h1>
+
+<pre class="sh_scala"><code>def matchTest(x: Any): Any = x match {
+    case 1 =&gt; "one"
+    case "two" =&gt; 2
+    case y: Int =&gt; "scala.Int"
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/10">
+<h1>Pattern Matching (2)</h1>
+
+<pre class="sh_scala"><code>def matchTest(x: List[String]): String = x match {
+    case List("item1")
+         =&gt; "item1"
+    case List("item1", "item2") 
+        =&gt; "item1 and item2"
+    case List("item1", "item2", _) 
+        =&gt; "item1, item2, and more)
+    case _ 
+        =&gt; "We don't really know")
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/11">
+<h1>XML Literals</h1>
+
+<pre class="sh_scala"><code>def theDate(name: String) = 
+  &lt;dateMsg addressedTo={ name }&gt;
+    Hello, { name }! Today is 
+    { dateString }
+  &lt;/dateMsg&gt;;
+  println(theDate("John Doe").toString())</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content bullets incremental" ref="scala/02_slide/12">
+<h1>Actors</h1>
+
+<ul>
+<li>A revolutionary way to write concurrent applications</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content bullets incremental" ref="scala/02_slide/13">
+<h1>Scala is extensible</h1>
+
+<ul>
+<li>Really small grammar</li>
+<li>No operator overloading</li>
+<li>infix / postfix operator</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content smbullets incremental" ref="scala/02_slide/14">
+<h1>Tons of other features</h1>
+
+<ul>
+<li>existential types</li>
+<li>abstract types</li>
+<li>Compound types</li>
+<li>implicits</li>
+<li>views</li>
+<li>higher-order types</li>
+<li>package objects</li>
+<li>variance annotations (Generics)</li>
+<li>lazy evaluation</li>
+<li>parser combinators</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content incremental" ref="scala/02_slide/15">
+<h1>Thank You !</h1>
+
+<p>Any Question ?</p></div>
+</div></div>
+
+</body>
+</html>
