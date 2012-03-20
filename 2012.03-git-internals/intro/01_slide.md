@@ -131,7 +131,7 @@ Sami Dalouche (<sami.dalouche@gmail.com>)
 # The rest is 'just' syntax #
 
 * git rebase -i / git add -i
-* git bissect
+* git bisect
 * git reflog
 * git stash
 * git reset/clean/checkout/revert
